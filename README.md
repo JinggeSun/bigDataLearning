@@ -76,6 +76,73 @@ start-yarn.sh，stop-yarn.sh顶部也需添加以下
 2. stop.all.sh
 3. master/slave jps
 
+## Hive
+hive-3.1.2
+
+Hive是基于Hadoop的一个数据仓库工具，可以将结构化的数据文件映射为一张数据库表。Hive 定义了简单的类 SQL 查询语言，称为 HQL，它允许熟悉 SQL 的用户查询数据。
+
+mysql存储元数据，数据仓库的数据存放在hdfs中
+
+Hive的本质是将 SQL 语句转换为 MapReduce 任务运行
+1. 内嵌安装
+2. 本地安装
+3. 远程安装
+### mysql
+linux安装mysql
+1. wget -i -c http://dev.mysql.com/get/mysql57-community-release-el7-10.noarch.rpm
+2. yum -y install mysql57-community-release-el7-10.noarch.rpm
+3. yum -y install mysql-community-server
+1. systemctl start mysqld
+
+##### 安装
+1. 解压 /opt
+2. 配置环境变量
+```
+export HIVE_HOME={{pwd}}
+export PATH=$HIVE_HOME/bin:$PATH
+
+```
+3. 将mysqll jar上传到 hive文件夹$HIVE_HOME/lib
+4. 配置文件 mysql4大项
+5. schematool -dbType mysql -initSchema 初始化元数据
+6. hive运行
+
+### Hive 数据类型
+1. 原始数据类型
+2. 整型，布尔型，字符串，浮点型
+3. 复杂数据类型
+4. maps，arrays，structs
+```
+CREATE TABLE complex(
+
+         col1 ARRAY< INT>,
+
+         col2 MAP< STRING,INT>,
+
+         col3 STRUCT< a:STRING,b:INT,c:DOUBLE>
+
+)
+```
+5. TEXTFILE 文本，默认值
+6. SEQUENCEFILE 二进制序列文件
+7. RCFILE 列式存储格式文件 Hive0.6以后开始支持
+8. ORC 列式存储格式文件，比RCFILE有更高的压缩比和读写效率，Hive0.11以后开始支持
+9. PARQUET 列出存储格式文件，Hive0.13以后开始支持
+### Hive
+1. show databases;
+2. create database 数据库名 comment 'database for test';
+3. describe database 数据库名;
+4. use 数据库名;
+5. drop database 数据库名;
+6. create table(id INT comment desc)
+7. DESC 表名;
+8. DROP TABLE 表名;
+9. show create table tablename;
+10. drop掉内部表，那么这个表的元数据和数据会被一起删掉。建表时建表语句中没有加 [EXTERNAL]的表称为内部表或者管理表
+11. 删除表时并不会删掉数据本身 外部表
+
+
+
 
 ## 软件安装
 ### MongoDB
